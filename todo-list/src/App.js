@@ -11,17 +11,21 @@ import MatDialog from './components/AddMatModal/';
 import Task from './components/Task/';
 
 class App extends Component {
-  state = {
-    displayModal: false,
-    editingColumnIndex: '',
-    taskContent: '',
-    editingTaskIndex: null,
-    editedTaskId: null,
-    columns: fromJS([
-      { id: 'td', title: 'TO DO', tasks: [] },
-      { id: 'ip', title: 'IN PROGRESS', tasks: [] },
-      { id: 'de', title: 'DONE', tasks: [] }
-    ])
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      displayModal: false,
+      editingColumnIndex: '',
+      taskContent: '',
+      editingTaskIndex: null,
+      editedTaskId: null,
+      columns: fromJS([
+        { id: 'td', title: 'TO DO', tasks: [] },
+        { id: 'ip', title: 'IN PROGRESS', tasks: [] },
+        { id: 'de', title: 'DONE', tasks: [] }
+      ])
+    }
   }
 
   componentDidMount() {

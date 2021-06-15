@@ -103,7 +103,7 @@ class App extends Component {
   }
 
   handleChangeSelectedColumn = (selectedColumn) => {
-    this.setState({ selectedColumn: selectedColumn.target.value })
+    this.setState({ selectedColumn: selectedColumn.target.value, editingColumnIndex: selectedColumn.target.value,})
   }
 
   handleEdit = () => {

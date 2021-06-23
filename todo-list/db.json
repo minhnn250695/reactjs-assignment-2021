@@ -1,0 +1,57 @@
+{
+  "todo_items": [
+    {
+      "id": "td",
+      "title": "TO DO",
+      "tasks": [
+        {
+          "id": "6d8c8050-cd34-11eb-a4f8-076465e6db55",
+          "content": "Join planning meeting",
+          "time": "6/15/2021, 12:17:42 AM"
+        }
+      ]
+    },
+    {
+      "id": "ip",
+      "title": "IN PROGRESS",
+      "tasks": [
+        {
+          "id": "773b98c0-cd34-11eb-a4f8-076465e6db55",
+          "content": "Fix UI bugs",
+          "time": "6/15/2021, 12:17:58 AM"
+        }
+      ]
+    },
+    {
+      "id": "de",
+      "title": "DONE",
+      "tasks": [
+        {
+          "id": "835fcfe0-cd34-11eb-a4f8-076465e6db55",
+          "content": "Buy coffee",
+          "time": "6/15/2021, 12:18:19 AM"
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "userId": 1,
+      "userName": "Nguyen Nhat Minh",
+      "email": "minh.nn250695@gmail.com",
+      "address" :"Binh Tan District, HCM City"
+    },
+    {
+      "userId": 2,
+      "userName": "John",
+      "email": "john@gmail.com",
+      "address" :"District 1, HCM City"
+    },
+    {
+      "userId": 3,
+      "userName": "Dan",
+      "email": "dan@gmail.com",
+      "address" :"Tan Phu District, HCM City"
+    }
+  ]
+}

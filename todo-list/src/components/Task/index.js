@@ -10,9 +10,9 @@ class Task extends Component {
 
 
     shouldComponentUpdate(nextProp) {
-        return (nextProp.index != this.props.index) ||
-            (nextProp.isEditing != this.props.isEditing) ||
-            (nextProp.task != this.props.task);
+        return (nextProp.index !== this.props.index) ||
+            (nextProp.isEditing !== this.props.isEditing) ||
+            (nextProp.task !== this.props.task);
     }
 
     componentDidUpdate() {

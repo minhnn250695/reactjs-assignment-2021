@@ -7,7 +7,7 @@ class Column extends Component {
         super(props);
     }
     shouldComponentUpdate(nextProp) {
-        return (nextProp.column != this.props.column) || (nextProp.children != this.props.children);
+        return (nextProp.column !== this.props.column) || (nextProp.children !== this.props.children);
     }
     componentDidUpdate() {
     }

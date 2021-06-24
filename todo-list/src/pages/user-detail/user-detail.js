@@ -59,7 +59,7 @@ class UserDetail extends Component {
     render() {
         return (
             <form className="container" onSubmit={this.onSubmitForm}>
-                <h3 className="title">{this.state.isCreate ? "Create new user" : "Update user info"}</h3>
+                <h3 className="title">{this.state.isCreate ? "Create New User" : "Update User Info"}</h3>
                 <div className="form-group">
                     <label>User Name</label>
                     <input type="text" className="form-control" defaultValue={this.state.user?.userName} ref={this.nameRef} placeholder="User name" />

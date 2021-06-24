@@ -39,13 +39,15 @@ class Users extends Component {
         const { users } = this.state;
         return (
             <>
-                <div className="d-flex justify-content-end mt-3 p-3">
-                    <Link to="/users/new">
-                        <Button variant="contained" color="primary" >Add new user</Button>
-                    </Link>
+                <div>
+                    <h1 className="d-flex justify-content-center user-list" color="dark">User List</h1>
+                    <div className="d-flex justify-content-end p-3">
+                        <Link to="/users/new">
+                            <Button variant="contained" color="primary" >Add New User</Button>
+                        </Link>
+                    </div>
                 </div>
-                <h1 className="d-flex justify-content-center user-list" color="dark">User list</h1>
-                <TableContainer className="mt-4" component={Paper}>
+                <TableContainer className="" component={Paper}>
                     <Table className="" aria-label="simple table">
                         <TableHead>
                             <TableRow>
@@ -63,7 +65,7 @@ class Users extends Component {
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell style={{maxWidth:"200px"}} align="right">{row.id}</TableCell>
+                                    <TableCell style={{ maxWidth: "200px" }} align="right">{row.id}</TableCell>
                                     <TableCell align="right">{row.userName}</TableCell>
                                     <TableCell align="right">{row.email}</TableCell>
                                     <TableCell align="right">{row.address}</TableCell>

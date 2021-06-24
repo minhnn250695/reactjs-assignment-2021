@@ -160,7 +160,7 @@ class TodoList extends Component {
 
     return (
       <div className="App">
-        <h1 className="App__title">TO DO LIST</h1>
+        <h1 className="d-flex justify-content-center user-list mb-2" color="dark">To Do List</h1>
         <DragDropContext onDragEnd={this.handleSaveDrag}>
           <div className="App__content">
             {

@@ -33,8 +33,8 @@ class App extends Component {
             <Route exact path="/users">
               <Users />
             </Route>
-            <Route path="/users/:id">
-              <UserDetail />
+            <Route path="/users/:id" render={props => <UserDetail {...props} />}>
+              {/* < UserDetail /> */}
             </Route>
             <Route exact path="/">
               <Login />

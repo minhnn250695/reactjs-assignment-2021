@@ -30,7 +30,6 @@ class TodoList extends Component {
   }
 
   componentDidMount() {
-    // const columns = localStorage.getItem('columns');
     axios.get('/todo_items').then(result => {
       console.log(result);
       const columns = result;
@@ -41,10 +40,6 @@ class TodoList extends Component {
         });
       }
     })
-  }
-
-  componentWillUnmount() {
-
   }
 
   handleToggleModal = (choosenColumn = '') => () => {
@@ -220,8 +215,5 @@ class TodoList extends Component {
       </div>
     );
   }
-
-
-
 }
 export default TodoList;

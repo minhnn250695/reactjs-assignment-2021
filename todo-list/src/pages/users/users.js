@@ -9,10 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import './style.scss'
 import axios from "axios";
 import Button from '@material-ui/core/Button';
-
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
+import { Redirect, Link } from "react-router-dom";
 
 class Users extends Component {
     constructor(props) {
@@ -23,20 +20,30 @@ class Users extends Component {
     }
 
     componentDidMount() {
+        this.loadUserList();
+    }
+
+    loadUserList() {
         axios.get('/users').then(res => {
-            console.log(res);
             this.setState({ users: res.data });
         });
     }
 
     handleDelete(id) {
-        console.log(id);
+        axios.delete('/users/{id}'.replace('{id}', id)).then(res => {
+            this.loadUserList();
+        });
     }
 
     render() {
         const { users } = this.state;
         return (
             <>
+                <div className="d-flex justify-content-end mt-3 p-3">
+                    <Link to="/users/new">
+                        <Button variant="contained" color="primary" >Add new user</Button>
+                    </Link>
+                </div>
                 <h1 className="d-flex justify-content-center user-list" color="dark">User list</h1>
                 <TableContainer className="mt-4" component={Paper}>
                     <Table className="" aria-label="simple table">
@@ -52,16 +59,20 @@ class Users extends Component {
                         </TableHead>
                         <TableBody>
                             {users.map((row) => (
-                                <TableRow key={row.userId}>
+                                <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell align="right">{row.userId}</TableCell>
+                                    <TableCell style={{maxWidth:"200px"}} align="right">{row.id}</TableCell>
                                     <TableCell align="right">{row.userName}</TableCell>
                                     <TableCell align="right">{row.email}</TableCell>
                                     <TableCell align="right">{row.address}</TableCell>
+                                    <TableCell align="right">{row.phone}</TableCell>
                                     <TableCell align="right">
-                                        <Button variant="contained" color="primary" onClick={() => this.handleDelete(row.userId)}>Delete</Button>
+                                        <Link to={`/users/${row.id}`}>
+                                            <Button variant="contained" color="primary">Edit</Button>
+                                        </Link>
+                                        <Button variant="contained" className="ml-2" color="primary" onClick={() => this.handleDelete(row.id)}>Delete</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

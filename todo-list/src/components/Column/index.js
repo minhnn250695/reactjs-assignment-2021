@@ -9,14 +9,6 @@ class Column extends Component {
     shouldComponentUpdate(nextProp) {
         return (nextProp.column !== this.props.column) || (nextProp.children !== this.props.children);
     }
-    componentDidUpdate() {
-    }
-
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
-    }
 
     render() {
         return (

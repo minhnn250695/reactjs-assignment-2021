@@ -15,15 +15,6 @@ class Task extends Component {
             (nextProp.task !== this.props.task);
     }
 
-    componentDidUpdate() {
-    }
-
-    componentDidMount() {
-    }
-
-    componentWillUnmount() {
-    }
-
     render() {
         console.log('Task component render');
         return (

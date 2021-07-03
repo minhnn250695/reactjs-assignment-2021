@@ -1,0 +1,39 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "taskName": "Task 1"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "userName": "Nguyen Nhat Minh",
+      "email": "minh.nn250695@gmail.com",
+      "address": "Binh Tan District, HCM City",
+      "phone": "16313121212",
+      "tasks": []
+    },
+    {
+      "id": 2,
+      "userName": "John",
+      "email": "john@gmail.com",
+      "address": "District 1, HCM City",
+      "phone": "16313121212"
+    },
+    {
+      "id": 3,
+      "userName": "Dan",
+      "email": "dan@gmail.com",
+      "address": "Tan Phu District, HCM City",
+      "phone": "16313121212"
+    },
+    {
+      "id": "75b3b32c-9bb8-4e4c-8724-d33e7e332d04",
+      "userName": "Luu",
+      "email": "luu@gmail.com",
+      "address": "Khanh Hoa",
+      "phone": "113ada2333"
+    }
+  ]
+}

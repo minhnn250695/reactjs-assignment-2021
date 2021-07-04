@@ -1,0 +1,10 @@
+.full-page {
+  height: 100vh;
+  width: 100vw;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  display: grid;
+  place-items: center;
+}

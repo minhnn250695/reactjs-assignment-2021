@@ -1,22 +1,21 @@
 import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-export const localApi = {
-	getAllUsers: "/db_users",
-	getUserById: "/db_users/{id}",
-	addUser: "/db_users",
-	updateUser: "/db_users/{id}",
-	deleteUser: "/db_users/{id}",
- 
-  };
-  
+export const userAPI = {
+	getAllUsers: "/users",
+	getUserById: "/users/{id}",
+	addUser: "/users",
+	updateUser: "/users/{id}",
+	deleteUser: "/users/{id}",
 
+};
 
 export const fetchUsersAsync = createAsyncThunk(
 	'users/fetchUsers',
 	async (_, thunkApi) => {
 		try {
-			const response = await axios.get(localApi.getAllUsers);
+			const response = await axios.get(userAPI.getAllUsers);
 			return response.data;
+
 		} catch (error) {
 			if (!error.response) {
 				throw error;
@@ -28,9 +27,9 @@ export const fetchUsersAsync = createAsyncThunk(
 
 export const deleteUserAsync = createAsyncThunk(
 	'users/deleteUser',
-	async (id: string, thunkApi) => {
+	async (id, thunkApi) => {
 		try {
-			await axios.delete(localApi.deleteUser.replace('{id}', id));
+			await axios.delete(userAPI.deleteUser.replace('{id}', id));
 			return id;
 		} catch (error) {
 			if (!error.response) {
@@ -45,7 +44,7 @@ export const addUserAsync = createAsyncThunk(
 	'users/addUser',
 	async (model, thunkApi) => {
 		try {
-			const response = await axios.post(localApi.addUser, model);
+			const response = await axios.post(userAPI.addUser, model);
 			return response.data;
 		} catch (error) {
 			if (!error.response) {
@@ -58,9 +57,9 @@ export const addUserAsync = createAsyncThunk(
 
 export const updateUserAsync = createAsyncThunk(
 	'users/updateUser',
-	async (model: any, thunkApi) => {
+	async (model, thunkApi) => {
 		try {
-			const response = await axios.put(localApi.updateUser.replace('{id}', model.id), model);
+			const response = await axios.put(userAPI.updateUser.replace('{id}', model.id), model);
 			return { id: model.id, model: response.data };
 		} catch (error) {
 			if (!error.response) {

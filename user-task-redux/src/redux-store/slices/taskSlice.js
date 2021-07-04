@@ -2,11 +2,11 @@ import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios';
 export const localApi = {
 
-	getAllTask: "/db_tasks",
-	getTaskById: "/db_tasks/{id}",
-	addTask: "/db_tasks",
-	updateTask: "/db_tasks/{id}",
-	deleteTask: "/db_tasks/{id}",
+	getAllTask: "/tasks",
+	getTaskById: "/tasks/{id}",
+	addTask: "/tasks",
+	updateTask: "/tasks/{id}",
+	deleteTask: "/tasks/{id}",
   };
   
   
@@ -28,7 +28,7 @@ export const fetchTasksAsync = createAsyncThunk(
 
 export const deleteTaskAsync = createAsyncThunk(
 	'tasks/deleteTask',
-	async (id: any, thunkApi) => {
+	async (id, thunkApi) => {
 		try {
 			await axios.delete(localApi.deleteTask.replace('{id}', id));
 			return id;
@@ -43,7 +43,7 @@ export const deleteTaskAsync = createAsyncThunk(
 
 export const addTaskAsync = createAsyncThunk(
 	'tasks/addTask',
-	async (model: any, thunkApi) => {
+	async (model, thunkApi) => {
 		try {
 			const response = await axios.post(localApi.addTask, model);
 			return response.data;
@@ -58,7 +58,7 @@ export const addTaskAsync = createAsyncThunk(
 
 export const updateTaskAsync = createAsyncThunk(
 	'tasks/updateTask',
-	async (model: any, thunkApi) => {
+	async (model, thunkApi) => {
 		try {
 			const response = await axios.put(localApi.updateTask.replace('{id}', model.id), model);
 			return { id: model.id, model: response.data };

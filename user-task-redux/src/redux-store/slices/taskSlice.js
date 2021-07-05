@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 export const localApi = {
 
@@ -99,12 +99,5 @@ const tasksSlice = createSlice({
 			})
 	}
 });
-
-const taskSelector = (state) => state.tasks;
-const taskByUserIdSelector = (_, userId) => userId;
-
-export const uniqueTaskByUserIdSelector = () => createSelector(taskSelector, taskByUserIdSelector,
-	(tasks, userId) => tasks.filter(x => x.userId === userId)
-);
 
 export default tasksSlice.reducer;

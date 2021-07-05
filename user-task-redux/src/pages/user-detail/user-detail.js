@@ -3,7 +3,6 @@ import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux'
 import { addUserAsync, deleteUserAsync, updateUserAsync } from '../../redux-store/slices/usersSlice';
-import { addTaskAsync, deleteTaskAsync, updateTaskAsync } from '../../redux-store/slices/taskSlice';
 
 class UserDetail extends Component {
     nameRef;
@@ -140,9 +139,6 @@ const mapStateToProps = () => {
 const mapDispatch = {
     deleteUserAsync,
     addUserAsync,
-    updateUserAsync,
-    addTaskAsync,
-    updateTaskAsync,
-    deleteTaskAsync,
+    updateUserAsync
 }
 export default connect(mapStateToProps, mapDispatch)(UserDetail);

@@ -11,10 +11,9 @@ import Button from '@material-ui/core/Button';
 import { Link } from "react-router-dom";
 
 import { deleteUserAsync } from '../../redux-store/slices/usersSlice';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 
-function Users(props) {
-
+const Users = (props) => {
     const users = props.users;
     return (
         <>
@@ -66,7 +65,6 @@ function Users(props) {
 
 const mapStateToProps = () => {
     return (state) => {
-
         const users = state && state.users && state.users.users;
         return { users };
     }

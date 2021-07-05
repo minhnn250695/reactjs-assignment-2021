@@ -66,8 +66,6 @@ const baseSlice = createSlice({
 });
 
 const loadingSelector = (state) => state.loading;
-
-
 export const uniqueLoadingSelector = () => createSelector(loadingSelector, (loading) => loading);
 
 export default baseSlice.reducer;

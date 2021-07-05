@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { deleteTaskAsync } from '../../redux-store/slices/taskSlice';
 import { connect } from 'react-redux'
 
-function Tasks(props) {
+const Tasks = (props) => {
     const tasks = props.tasks;
     return (
         <>
@@ -54,7 +54,6 @@ function Tasks(props) {
             </TableContainer>
         </>
     );
-
 }
 
 

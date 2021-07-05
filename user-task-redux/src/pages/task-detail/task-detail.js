@@ -2,7 +2,7 @@ import React, { Component, createRef } from "react";
 import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux'
-import { addTaskAsync, deleteTaskAsync, updateTaskAsync, uniqueTaskByUserIdSelector } from '../../redux-store/slices/taskSlice';
+import { addTaskAsync, updateTaskAsync } from '../../redux-store/slices/taskSlice';
 class TaskDetail extends Component {
     nameRef;
     addressRef;

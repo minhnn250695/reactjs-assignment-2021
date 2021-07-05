@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 export const userAPI = {
 	getAllUsers: "/users",
@@ -100,17 +100,5 @@ const usersSlice = createSlice({
 			})
 	}
 });
-
-const usersSelector = (state) => state.users;
-const userByIdSelector = (_, id) => id;
-
-export const uniqueUsersSelector = () => createSelector(usersSelector,
-	(users) => users
-);
-
-export const uniqueUserByIdSelector = () => createSelector(usersSelector, userByIdSelector,
-	(users, id) => users.find(x => x.id === id)
-);
-
 
 export default usersSlice.reducer;

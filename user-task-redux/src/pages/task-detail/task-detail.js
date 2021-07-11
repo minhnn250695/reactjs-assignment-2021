@@ -56,7 +56,9 @@ class TaskDetail extends Component {
                     <input type="text" className="form-control" defaultValue={this.props.task?.taskName} ref={this.nameRef} placeholder="User name" />
                 </div>
                 <div className='d-flex justify-content-end mt-4'>
-                    <button type="submit" className="btn btn-primary btn-block">Save</button>
+                    <div>
+                        <button type="submit" className="btn btn-primary btn-block">Save</button>
+                    </div>
                 </div>
             </form>
         );

@@ -2,12 +2,13 @@ import React, { Component, createRef } from "react";
 import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux'
-import { addUserAsync, deleteUserAsync, updateUserAsync } from '../../redux-store/slices/usersSlice';
+import { addUserAsync, deleteUserAsync, updateUserAsync } from '../../store/slices/usersSlice';
 
 class UserDetail extends Component {
     nameRef;
     addressRef;
     emailRef;
+    passRef;
     phoneRef;
     constructor(props) {
         super(props);
@@ -19,6 +20,7 @@ class UserDetail extends Component {
         this.nameRef = createRef();
         this.addressRef = createRef();
         this.emailRef = createRef();
+        this.passRef = createRef();
         this.phoneRef = createRef();
     }
 
@@ -40,6 +42,7 @@ class UserDetail extends Component {
         const data = {
             id: this.state?.isCreate ? uuidv4() : this.props?.user.id,
             userName: this.nameRef.current.value,
+            pass: this.passRef.current.value,
             email: this.emailRef.current.value,
             address: this.addressRef.current.value,
             phone: this.phoneRef.current.value,
@@ -82,6 +85,11 @@ class UserDetail extends Component {
                 </div>
 
                 <div className="form-group">
+                    <label style={{ textAlign: 'left', width: '100%' }}>Password</label>
+                    <input type="password" className="form-control" defaultValue={this.props.user?.pass} ref={this.passRef} placeholder="Password" />
+                </div>
+
+                <div className="form-group">
                     <label style={{ textAlign: 'left', width: '100%' }}>Phone</label>
                     <input type="text" maxLength="10" className="form-control" defaultValue={this.props.user?.phone} ref={this.phoneRef} placeholder="Enter phone number" />
                 </div>
@@ -94,8 +102,12 @@ class UserDetail extends Component {
                     </div>
                 }
                 <div className='d-flex justify-content-end mt-4'>
-                    <button type="button" className="btn btn-primary btn-block m-2" onClick={() => { this.toogleAssignTask() }} >Assign Task</button>
-                    <button type="submit" className="btn btn-primary btn-block m-2">Save</button>
+                    <div>
+                        <button type="button" className="btn btn-primary btn-block m-2" onClick={() => { this.toogleAssignTask() }} >Assign Task</button>
+                    </div>
+                    <div>
+                        <button type="submit" className="btn btn-primary btn-block m-2">Save</button>
+                    </div>
                 </div>
 
                 {this.state.isToggleAssignTask &&

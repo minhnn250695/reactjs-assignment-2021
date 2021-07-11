@@ -5,6 +5,7 @@ import {
   Switch,
   Link,
   Route,
+  Redirect
 } from "react-router-dom";
 import Navbar from 'react-bootstrap/Navbar'
 import { Nav } from 'react-bootstrap';
@@ -13,12 +14,15 @@ import UserDetail from './pages/user-detail/user-detail';
 import Tasks from './pages/tasks/tasks';
 import TaskDetail from './pages/task-detail/task-detail';
 import Login from './pages/login/login';
+import Logout from './pages/login/logout';
+
 import Spinner from './components/Spinner/spinner';
 import { fetchUsersAsync } from './redux-store/slices/usersSlice';
 import { fetchTasksAsync } from './redux-store/slices/taskSlice';
 import { connect } from 'react-redux';
 import { uniqueLoadingSelector } from './redux-store/slices/baseSlice';
-
+import { PrivateRoute } from './route/private-route';
+import auth from './auth/authentication';
 
 class App extends Component {
   constructor(props) {
@@ -40,27 +44,27 @@ class App extends Component {
               <Link to="/tasks" style={{ marginRight: '20px' }}>Tasks</Link>
               <Link to="/users" style={{ marginRight: '20px' }}>Users</Link>
             </Nav>
+            <Link to="/logout" className="btn btn-info btn-lg">
+              <span className="glyphicon glyphicon-log-out"></span> Log out
+            </Link>
           </Navbar>
 
           <Switch>
-            <Route exact path="/tasks">
-              <Tasks />
-            </Route>
-            <Route path="/tasks/:id" render={props => <TaskDetail {...props} />}>
-            </Route>
-            <Route exact path="/users">
-              <Users />
-            </Route>
-            <Route path="/users/:id" render={props => <UserDetail {...props} />}>
-            </Route>
-            <Route exact path="/">
-              <Login />
-            </Route>
+            <Route exact path="/" render={props => { return <Login {...props} /> }} ></Route>
+            <Route exact path="/logout" render={props => { return <Logout {...props} /> }} ></Route>
+            
+            <PrivateRoute exact path="/tasks" component={Tasks}></PrivateRoute>
+            <PrivateRoute path="/tasks/:id" component={TaskDetail}></PrivateRoute>
+
+            <PrivateRoute exact path="/users" component={Users}></PrivateRoute>
+            <PrivateRoute path="/users/:id" component={UserDetail}></PrivateRoute>
+
             <Route path="*">
               <h1>Page not found!</h1>
             </Route>
           </Switch>
         </Router>
+
         {this.props.loading ? <Spinner /> : ''}
       </div>
     );

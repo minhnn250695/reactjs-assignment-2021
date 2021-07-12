@@ -2,13 +2,20 @@ import { createUserAPI, deleteUserAPI, updateUserAPI } from '../../services/user
 import { createTaskAPI, deleteTaskAPI, updateTaskAPI } from '../../services/task';
 import ActionTypes  from '../action/actionTypes';
 import { call,all, put, takeEvery } from 'redux-saga/effects';
+import { isExpiredToken } from '../../auth/authentication';
 
 function* addUser(action) {
   yield put({ type: ActionTypes.START_LOADING });
   try {
     const res = yield call(createUserAPI, action.payload);
     yield put({ type: ActionTypes.ADD_USER_SUCCESS, payload: res.data });
-    yield put({ type: ActionTypes.END_LOADING });
+    
+    const isExpired = yield call(isExpiredToken);
+    if (isExpired) {
+      yield put({ type: ActionTypes.EXPIRED_TOKEN })
+    } else {
+      yield put({ type: ActionTypes.END_LOADING });
+    }
   } catch (error) {
   }
 }
@@ -18,7 +25,13 @@ function* updateUser(action) {
   try {
     const res = yield call(updateUserAPI, action.payload);
     yield put({ type: ActionTypes.UPDATE_USER_SUCCESS, payload: res.data });
-    yield put({ type: ActionTypes.END_LOADING });
+    
+    const isExpired = yield call(isExpiredToken);
+    if (isExpired) {
+      yield put({ type: ActionTypes.EXPIRED_TOKEN })
+    } else {
+      yield put({ type: ActionTypes.END_LOADING });
+    }
   } catch (error) {
   }
 }
@@ -28,7 +41,13 @@ function* deleteUser(action) {
   try {
     yield call(deleteUserAPI, action.payload);
     yield put({ type: ActionTypes.DELETE_USER_SUCCESS, payload: action.payload });
-    yield put({ type: ActionTypes.END_LOADING });
+    
+    const isExpired = yield call(isExpiredToken);
+    if (isExpired) {
+      yield put({ type: ActionTypes.EXPIRED_TOKEN })
+    } else {
+      yield put({ type: ActionTypes.END_LOADING });
+    }
   } catch (error) {
   }
 }
@@ -39,7 +58,13 @@ function* addTask(action) {
   try {
     const res = yield call(createTaskAPI, action.payload);
     yield put({ type: ActionTypes.ADD_TASK_SUCCESS, payload: res.data });
-    yield put({ type: ActionTypes.END_LOADING });
+    
+    const isExpired = yield call(isExpiredToken);
+    if (isExpired) {
+      yield put({ type: ActionTypes.EXPIRED_TOKEN })
+    } else {
+      yield put({ type: ActionTypes.END_LOADING });
+    }
   } catch (error) {
   }
 }
@@ -49,7 +74,13 @@ function* updateTask(action) {
   try {
     const res = yield call(updateTaskAPI, action.payload);
     yield put({ type: ActionTypes.UPDATE_TASK_SUCCESS, payload: res.data });
-    yield put({ type: ActionTypes.END_LOADING });
+    
+    const isExpired = yield call(isExpiredToken);
+    if (isExpired) {
+      yield put({ type: ActionTypes.EXPIRED_TOKEN })
+    } else {
+      yield put({ type: ActionTypes.END_LOADING });
+    }
   } catch (error) {
   }
 }
@@ -59,7 +90,13 @@ function* deleteTask(action) {
   try {
     yield call(deleteTaskAPI, action.payload);
     yield put({ type: ActionTypes.DELETE_TASK_SUCCESS, payload: action.payload });
-    yield put({ type: ActionTypes.END_LOADING });
+    
+    const isExpired = yield call(isExpiredToken);
+    if (isExpired) {
+      yield put({ type: ActionTypes.EXPIRED_TOKEN })
+    } else {
+      yield put({ type: ActionTypes.END_LOADING });
+    }
   } catch (error) {
   }
 }

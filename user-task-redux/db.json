@@ -1,44 +1,35 @@
 {
   "tasks": [
     {
-      "id": "0c5a65e5-55f5-4355-89f4-ea525f6a726c",
+      "id": "e0b2e0d3-18b8-48c5-babc-6a71a53f27a4",
       "taskName": "Task 2"
     },
     {
-      "id": "60dcbb76-64a5-4584-90c1-b708351fea9a",
-      "taskName": "Task 3"
-    },
-    {
-      "id": "2698c577-baba-45ed-b3c4-0e801790ba06",
-      "taskName": "Task 4"
+      "id": "fb1bedae-8967-4640-aa21-9d4bdbc9e7b4",
+      "taskName": "Task 2"
     }
   ],
   "users": [
     {
-      "id": 1,
+      "id": "34d0a830-5b7f-4fed-a929-8fcbf2a7c1fe",
       "userName": "Nguyen Nhat Minh",
-      "pass": "123456",
+      "password": "123",
       "email": "minh.nn250695@gmail.com",
-      "address": "Binh Tan District, HCM City",
-      "phone": "16313121212",
+      "address": "",
+      "phone": "165156313",
       "tasks": [
-        "0c5a65e5-55f5-4355-89f4-ea525f6a726c"
+        "a350396e-1976-4580-970a-3ec6d4e7e609",
+        "e0b2e0d3-18b8-48c5-babc-6a71a53f27a4",
+        "a350396e-1976-4580-970a-3ec6d4e7e609"
       ]
     },
     {
-      "id": 2,
-      "userName": "John",
-      "email": "john@gmail.com",
-      "address": "District 1, HCM City",
-      "phone": "16313121212"
-    },
-    {
-      "id": 3,
-      "userName": "Dan",
-      "pass": "123456",
-      "email": "dan@gmail.com",
-      "address": "Tan Phu District, HCM City",
-      "phone": "16313121212",
+      "id": "b39f3291-b690-414b-8aed-4e789c6b8c0a",
+      "userName": "sdf",
+      "password": "a",
+      "email": "a",
+      "address": "sd",
+      "phone": "s",
       "tasks": []
     }
   ]

@@ -1,13 +1,11 @@
 import { Component } from "react";
-import auth from '../../auth/authentication';
+import {logout} from '../../auth/authentication';
 
 class Logout extends Component {
     constructor(props) {
         super(props)
-        auth.logout(() => {
-            auth.logout(() => {
-                this.props.history.push('/');
-            })
+        logout(() => {
+            this.props.history.push('/');
         })
     }
 

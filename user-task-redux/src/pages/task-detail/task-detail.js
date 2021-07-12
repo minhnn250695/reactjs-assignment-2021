@@ -2,7 +2,12 @@ import React, { Component, createRef } from "react";
 import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux'
-import { addTaskAsync, updateTaskAsync } from '../../redux-store/slices/taskSlice';
+import  ActionTypes  from "../../redux/action/actionTypes";
+
+const getCurrentTaskDetail = (tasks, id) => {
+    return tasks.filter(task => task.id === id)[0];
+}
+
 class TaskDetail extends Component {
     nameRef;
     addressRef;
@@ -12,6 +17,7 @@ class TaskDetail extends Component {
         super(props);
         this.state = {
             isCreate: true,
+            task: {}
         }
         this.nameRef = createRef();
         this.addressRef = createRef();
@@ -21,6 +27,9 @@ class TaskDetail extends Component {
 
     componentDidMount() {
         const { id } = this.props.match.params;
+        const selectedTask = getCurrentTaskDetail(this.props.tasks, id);
+        this.setState({ task: selectedTask, id: id });
+
         if (id === 'new') {
             this.setState({
                 isCreate: true,
@@ -35,13 +44,13 @@ class TaskDetail extends Component {
     onSubmitForm = (e) => {
         e.preventDefault();
         const data = {
-            id: this.state?.isCreate ? uuidv4() : this.props?.task.id,
+            id: this.state?.isCreate ? uuidv4() : this.state.id,
             taskName: this.nameRef.current.value,
         };
         if (this.state?.isCreate) {
-            this.props.addTaskAsync(data);
+            this.props.createTask(data);
         } else {
-            this.props.updateTaskAsync(data);
+            this.props.updateTask(data);
 
         }
         this.props.history.push('/tasks');
@@ -53,7 +62,7 @@ class TaskDetail extends Component {
                 <h3 className="title">{this.state.isCreate ? "Create New Task" : "Update Task Info"}</h3>
                 <div className="form-group">
                     <label style={{ textAlign: 'left', width: '100%' }}>Task Name</label>
-                    <input type="text" className="form-control" defaultValue={this.props.task?.taskName} ref={this.nameRef} placeholder="User name" />
+                    <input type="text" className="form-control" defaultValue={this.state.task?.taskName} ref={this.nameRef} placeholder="User name" />
                 </div>
                 <div className='d-flex justify-content-end mt-4'>
                     <div>
@@ -65,19 +74,16 @@ class TaskDetail extends Component {
     }
 }
 
-const getCurrentTaskDetail = (tasks, id) => {
-    return tasks.filter(task => task.id == id)[0];
-}
-
 const mapStateToProps = () => {
-    return (state, ownProps) => {
-        const task = getCurrentTaskDetail(state.tasks.tasks, ownProps.match.params.id);
-        return { task };
+    return (state) => {
+        const tasks = state && state.taskReducer;
+        return { tasks };
     }
 }
 
-const mapDispatch = {
-    updateTaskAsync,
-    addTaskAsync,
+const mapDispatchToProps = {
+    createTask: (task) => ({ type: ActionTypes.ADD_TASK, payload: task }),
+    updateTask: (task) => ({ type: ActionTypes.UPDATE_TASK, payload: task }),
 }
-export default connect(mapStateToProps, mapDispatch)(TaskDetail);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskDetail);

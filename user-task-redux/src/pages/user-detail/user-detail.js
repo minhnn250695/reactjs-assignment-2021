@@ -2,7 +2,20 @@ import React, { Component, createRef } from "react";
 import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux'
-import { addUserAsync, deleteUserAsync, updateUserAsync } from '../../store/slices/usersSlice';
+import ActionTypes from "../../redux/action/actionTypes";
+
+const getCurrentUserDetail = (users, id) => {
+    return users.filter(us => us.id === id)[0];
+}
+
+const getListTaskByUserId = (alltask, user) => {
+    if (!user || !user.tasks || user.tasks.length === 0) return [];
+    const assignedTasks = user.tasks;
+    let newList = alltask.filter(all => {
+        return assignedTasks.includes(all.id);
+    });
+    return newList;
+}
 
 class UserDetail extends Component {
     nameRef;
@@ -26,6 +39,11 @@ class UserDetail extends Component {
 
     componentDidMount() {
         const { id } = this.props.match.params;
+
+        const user = getCurrentUserDetail(this.props.users, this.props.match.params.id);
+        const tasksOfUser = getListTaskByUserId(this.props.tasks, user);
+
+        this.setState({ user, id, tasksOfUser: tasksOfUser })
         if (id === 'new') {
             this.setState({ isCreate: true })
         } else if (id !== 'new') {
@@ -35,23 +53,23 @@ class UserDetail extends Component {
 
     onSubmitForm = (e) => {
         e.preventDefault();
-        let newtask = (this.props.user && this.props.user.tasks) ? [...this.props.user.tasks] : [];
+        let newtask = (this.state.user && this.state.user.tasks) ? [...this.state.user.tasks] : [];
         if (this.state.selectValue !== '') {
             newtask.push(this.state.selectValue);
         }
         const data = {
-            id: this.state?.isCreate ? uuidv4() : this.props?.user.id,
+            id: this.state?.isCreate ? uuidv4() : this.state.id,
             userName: this.nameRef.current.value,
-            pass: this.passRef.current.value,
+            password: this.passRef.current.value,
             email: this.emailRef.current.value,
             address: this.addressRef.current.value,
             phone: this.phoneRef.current.value,
             tasks: newtask
         };
         if (this.state?.isCreate) {
-            this.props.addUserAsync(data);
+            this.props.createUser(data);
         } else {
-            this.props.updateUserAsync(data);
+            this.props.updateUser(data);
         }
         this.props.history.push('/users');
     }
@@ -68,35 +86,35 @@ class UserDetail extends Component {
     render() {
         return (
             <form className="container" onSubmit={this.onSubmitForm}>
-                <h3 className="title">{this.props.isCreate ? "Create New User" : "Update User Info"}</h3>
+                <h3 className="title">{this.state.isCreate ? "Create New User" : "Update User Info"}</h3>
                 <div className="form-group">
                     <label style={{ textAlign: 'left', width: '100%' }}>User Name</label>
-                    <input type="text" className="form-control" defaultValue={this.props.user?.userName} ref={this.nameRef} placeholder="User name" />
+                    <input type="text" className="form-control" defaultValue={this.state.user?.userName} ref={this.nameRef} placeholder="User name" />
                 </div>
 
                 <div className="form-group">
                     <label style={{ textAlign: 'left', width: '100%' }}>Address</label>
-                    <input type="text" className="form-control" defaultValue={this.props.user?.address} ref={this.addressRef} placeholder="Address" />
+                    <input type="text" className="form-control" defaultValue={this.stateuser?.address} ref={this.addressRef} placeholder="Address" />
                 </div>
 
                 <div className="form-group">
                     <label style={{ textAlign: 'left', width: '100%' }}>Email address</label>
-                    <input type="text" className="form-control" defaultValue={this.props.user?.email} ref={this.emailRef} placeholder="Enter email" />
+                    <input type="text" className="form-control" defaultValue={this.state.user?.email} ref={this.emailRef} placeholder="Enter email" />
                 </div>
 
                 <div className="form-group">
                     <label style={{ textAlign: 'left', width: '100%' }}>Password</label>
-                    <input type="password" className="form-control" defaultValue={this.props.user?.pass} ref={this.passRef} placeholder="Password" />
+                    <input type="password" className="form-control" defaultValue={this.state.user?.pass} ref={this.passRef} placeholder="Password" />
                 </div>
 
                 <div className="form-group">
                     <label style={{ textAlign: 'left', width: '100%' }}>Phone</label>
-                    <input type="text" maxLength="10" className="form-control" defaultValue={this.props.user?.phone} ref={this.phoneRef} placeholder="Enter phone number" />
+                    <input type="text" maxLength="10" className="form-control" defaultValue={this.state.user?.phone} ref={this.phoneRef} placeholder="Enter phone number" />
                 </div>
-                {this.props.tasks && this.props.tasks.length > 0 &&
+                {this.state.tasksOfUser && this.state.tasksOfUser.length > 0 &&
                     <div className="form-group">
                         <label style={{ textAlign: 'left', width: '100%' }}>Tasks</label>
-                        {this.props.tasks.map((task) => {
+                        {this.state.tasksOfUser.map((task) => {
                             return <span key={task.id} style={{ width: '15%' }} className="form-control">{task.taskName} </span>
                         })}
                     </div>
@@ -115,7 +133,7 @@ class UserDetail extends Component {
                         <label style={{ marginRight: '8px' }}>Select Task</label>
                         <select style={{ textAlign: 'left', width: '20%' }} value={this.state.selectValue} onChange={this.handleChange}>
                             <option>Default Value</option>
-                            {this.props.allTask.map((t) => {
+                            {this.props.tasks.map((t) => {
                                 return <option key={t.id} value={t.id}>{t.taskName}</option>
                             })}
                         </select>
@@ -126,31 +144,18 @@ class UserDetail extends Component {
     }
 }
 
-const getCurrentUserDetail = (users, id) => {
-    return users.filter(us => us.id == id)[0];
-}
 
-const getListTaskByUserId = (alltask, user) => {
-    if (!user || !user.tasks || user.tasks.length == 0) return [];
-    const assignedTasks = user.tasks;
-    let newList = alltask.filter(all => {
-        return assignedTasks.includes(all.id);
-    });
-    return newList;
-}
 
 const mapStateToProps = () => {
-    return (state, ownProps) => {
-        const allTask = state.tasks && state.tasks.tasks;
-        const user = getCurrentUserDetail(state.users.users, ownProps.match.params.id);
-        const tasks = getListTaskByUserId(state.tasks.tasks, user);
-        return { tasks, user, allTask };
+    return (state) => {
+        const tasks = state && state.taskReducer;
+        const users = state && state.userReducer;
+        return { tasks, users };
     }
 }
 
-const mapDispatch = {
-    deleteUserAsync,
-    addUserAsync,
-    updateUserAsync
+const mapDispatchToProps = {
+    createUser: (user) => ({ type: ActionTypes.ADD_USER, payload: user }),
+    updateUser: (user) => ({ type: ActionTypes.UPDATE_USER, payload: user }),
 }
-export default connect(mapStateToProps, mapDispatch)(UserDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);

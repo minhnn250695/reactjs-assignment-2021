@@ -17,22 +17,10 @@ import Login from './pages/login/login';
 import Logout from './pages/login/logout';
 
 import Spinner from './components/Spinner/spinner';
-import { fetchUsersAsync } from './redux-store/slices/usersSlice';
-import { fetchTasksAsync } from './redux-store/slices/taskSlice';
 import { connect } from 'react-redux';
-import { uniqueLoadingSelector } from './redux-store/slices/baseSlice';
-import { PrivateRoute } from './route/private-route';
-import auth from './auth/authentication';
+import { PrivateRoute } from './routes/private-route';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    this.props.fetchUsersAsync();
-    this.props.fetchTasksAsync();
-  }
   render() {
     return (
       <div className="App">
@@ -52,7 +40,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={props => { return <Login {...props} /> }} ></Route>
             <Route exact path="/logout" render={props => { return <Logout {...props} /> }} ></Route>
-            
+
             <PrivateRoute exact path="/tasks" component={Tasks}></PrivateRoute>
             <PrivateRoute path="/tasks/:id" component={TaskDetail}></PrivateRoute>
 
@@ -63,6 +51,7 @@ class App extends Component {
               <h1>Page not found!</h1>
             </Route>
           </Switch>
+          {this.props.expired ? <Redirect to='/' /> : ''}
         </Router>
 
         {this.props.loading ? <Spinner /> : ''}
@@ -73,16 +62,13 @@ class App extends Component {
 }
 
 const mapState = () => {
-  const loadingSelector = uniqueLoadingSelector();
   return (state) => {
-    const loading = loadingSelector(state.base);
-    return { loading };
+    console.log('app', state);
+    const loading = state.loadingReducer.isLoading;
+    const expired = state.loadingReducer.isExpired;
+
+    return { loading, expired };
   }
 }
 
-const mapDispatch = {
-  fetchUsersAsync,
-  fetchTasksAsync
-}
-
-export default connect(mapState, mapDispatch)(App);
+export default connect(mapState)(App);

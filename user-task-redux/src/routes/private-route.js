@@ -1,11 +1,18 @@
 import { Route, Redirect } from 'react-router-dom';
-import auth from '../auth/authentication';
+import {isAuthenticated} from '../auth/authentication';
+import Layout from '../components/layout/layout';
+
+
 export const PrivateRoute = ({ component: Component, ...rest }) => {
     return (
         <Route {...rest} render={
             (props) => {
-                if (auth.isAuthenticated()) {
-                    return <Component {...props} />
+                if (isAuthenticated()) {
+                    return (
+                        <>
+                            {/* <Layout></Layout> */}
+                            <Component {...props} />
+                        </>)
                 }
                 else {
                     return (

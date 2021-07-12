@@ -1,24 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit';
-
-export const store = configureStore({
-	reducer: {
-	},
-})
-
 import { createStore, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { all, fork } from 'redux-saga/effects';
-import reducer from '../reducer';
-import { fetchToSaga, updateToSaga } from '../saga';
+import { all, call } from 'redux-saga/effects';
+import reducer from '../redux/reducer';
+import { fetchToSaga, updateToSaga } from '../redux/saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const configStore = createStore(reducer, applyMiddleware(sagaMiddleware));
+const store = createStore(reducer, applyMiddleware(sagaMiddleware));
 
 function* combineSaga() {
-  yield all([fork(fetchToSaga), fork(updateToSaga)]);
+  yield all([
+    call(fetchToSaga),
+    call(updateToSaga)
+  ]);
 }
 
 sagaMiddleware.run(combineSaga);
 
-export default configStore;
+export default store;

@@ -1,129 +1,78 @@
-import { call, put, all, fork, takeEvery } from 'redux-saga/effects';
-import { fetchArticle, failToFetchArticleList } from '../action/article';
-import { saveUserInfo, failToFetchUserInfo } from '../action/user';
-import {
-  filterArticlesByTag,
-  updateUserInfo,
-  addNewArticle,
-  updateArticle,
-  deleteUserArticle,
-  likeArticle,
-  unlikeArticle,
-  pagination,
-} from '../../services';
-import {
-  FILTER_BY_TAG,
-  UPDATE_ARTICLE,
-  UPDATE_USER_INFO,
-  DELETE_ARTICLE,
-  LIKE_UNLIKE_ARTICLE,
-  CHANGE_PAGE,
-} from '../action/actionTypes';
+import { createUserAPI, deleteUserAPI, updateUserAPI } from '../../services/user';
+import { createTaskAPI, deleteTaskAPI, updateTaskAPI } from '../../services/task';
+import ActionTypes  from '../action/actionTypes';
+import { call,all, put, takeEvery } from 'redux-saga/effects';
 
-function* filterArticles(action) {
-  const articles = yield call(filterArticlesByTag, action.tagName);
-  if (articles.articles.length === 0) {
-    yield fork(listArticles);
-  } else {
-    yield put(fetchArticle(articles));
+function* addUser(action) {
+  yield put({ type: ActionTypes.START_LOADING });
+  try {
+    const res = yield call(createUserAPI, action.payload);
+    yield put({ type: ActionTypes.ADD_USER_SUCCESS, payload: res.data });
+    yield put({ type: ActionTypes.END_LOADING });
+  } catch (error) {
   }
 }
 
-function* updateUserSaga(action) {
-  const { email, username, password, image, bio, token } = action;
-  const user = yield call(
-    updateUserInfo,
-    email,
-    username,
-    password,
-    image,
-    bio,
-    token
-  );
-  if (user.errors) {
-    yield put(failToFetchUserInfo(user.errors));
-  } else {
-    yield put(failToFetchUserInfo({}));
-    yield put(saveUserInfo(user.user));
-    yield all([fork(listArticles), fork(listTags)]);
+function* updateUser(action) {
+  yield put({ type: ActionTypes.START_LOADING });
+  try {
+    const res = yield call(updateUserAPI, action.payload);
+    yield put({ type: ActionTypes.UPDATE_USER_SUCCESS, payload: res.data });
+    yield put({ type: ActionTypes.END_LOADING });
+  } catch (error) {
   }
 }
 
-function* updateUserArticle(action) {
-  const { title, description, body, tagList, token, articleId } = action;
-  let article;
-  if (articleId) {
-    article = yield call(
-      updateArticle,
-      title,
-      description,
-      body,
-      tagList,
-      token,
-      articleId
-    );
-  }
-  if (!articleId) {
-    article = yield call(
-      addNewArticle,
-      title,
-      description,
-      body,
-      tagList,
-      token
-    );
-  }
-  if (article.errors) {
-    yield put(failToFetchArticleList(article.errors));
-  } else {
-    yield put(failToFetchArticleList({}));
-    yield all([fork(listArticles), fork(listTags)]);
+function* deleteUser(action) {
+  yield put({ type: ActionTypes.START_LOADING });
+  try {
+    yield call(deleteUserAPI, action.payload);
+    yield put({ type: ActionTypes.DELETE_USER_SUCCESS, payload: action.payload });
+    yield put({ type: ActionTypes.END_LOADING });
+  } catch (error) {
   }
 }
 
-function* deleteArticle(action) {
-  const { token, articleId } = action;
-  const article = yield call(deleteUserArticle, token, articleId);
-  if (article.errors) {
-    console.log(article.errors);
-  } else {
-    yield all([fork(listArticles), fork(listTags)]);
+
+function* addTask(action) {
+  yield put({ type: ActionTypes.START_LOADING });
+  try {
+    const res = yield call(createTaskAPI, action.payload);
+    yield put({ type: ActionTypes.ADD_TASK_SUCCESS, payload: res.data });
+    yield put({ type: ActionTypes.END_LOADING });
+  } catch (error) {
   }
 }
 
-function* likeAndUnlikeArticle(action) {
-  const { articleId, token, key } = action;
-  if (key === 'like') {
-    const like = yield call(likeArticle, articleId, token);
-    if (like.article) {
-      yield all([fork(listArticles), fork(listTags)]);
-    }
-  } else if (key === 'unlike') {
-    const unlike = yield call(unlikeArticle, articleId, token);
-    if (unlike.article) {
-      yield all([fork(listArticles), fork(listTags)]);
-    }
+function* updateTask(action) {
+  yield put({ type: ActionTypes.START_LOADING });
+  try {
+    const res = yield call(updateTaskAPI, action.payload);
+    yield put({ type: ActionTypes.UPDATE_TASK_SUCCESS, payload: res.data });
+    yield put({ type: ActionTypes.END_LOADING });
+  } catch (error) {
   }
 }
 
-function* changePage(action) {
-  const { itemPerPage, offset, activeKey } = action;
-  const articles = yield call(pagination, itemPerPage, offset, activeKey);
-  if (articles.articles.length === 0) {
-    yield fork(listArticles);
-  } else {
-    yield put(fetchArticle(articles));
+function* deleteTask(action) {
+  yield put({ type: ActionTypes.START_LOADING });
+  try {
+    yield call(deleteTaskAPI, action.payload);
+    yield put({ type: ActionTypes.DELETE_TASK_SUCCESS, payload: action.payload });
+    yield put({ type: ActionTypes.END_LOADING });
+  } catch (error) {
   }
 }
 
 function* updateToSaga() {
   yield all([
-    takeEvery(FILTER_BY_TAG, filterArticles),
-    takeEvery(UPDATE_USER_INFO, updateUserSaga),
-    takeEvery(UPDATE_ARTICLE, updateUserArticle),
-    takeEvery(DELETE_ARTICLE, deleteArticle),
-    takeEvery(LIKE_UNLIKE_ARTICLE, likeAndUnlikeArticle),
-    takeEvery(CHANGE_PAGE, changePage),
+    takeEvery(ActionTypes.ADD_USER, addUser),
+    takeEvery(ActionTypes.UPDATE_USER, updateUser),
+    takeEvery(ActionTypes.DELETE_USER, deleteUser),
+
+    takeEvery(ActionTypes.ADD_TASK, addTask),
+    takeEvery(ActionTypes.UPDATE_TASK, updateTask),
+    takeEvery(ActionTypes.DELETE_TASK, deleteTask)
   ]);
 }
 

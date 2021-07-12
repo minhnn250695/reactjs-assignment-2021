@@ -1,17 +1,29 @@
 import React, { Component, createRef } from "react";
 import bg2 from '../../assets/images/bg-2.png';
-import auth from '../../auth/authentication';
-import { Redirect } from "react-router";
 import './style.scss'
+import { signIn } from '../../services/auth';
 
 class Login extends Component {
 	userNameRef;
-	passWordRed;
+	passWordRef;
 
 	constructor(props) {
 		super(props);
 		this.userNameRef = createRef();
-		this.passWordRed = createRef();
+		this.passWordRef = createRef();
+	}
+
+	onClickLogin() {
+		const email = this.userNameRef.current.value;
+		const password = this.passWordRef.current.value;
+		if (!email || !password) return;
+		else {
+			signIn(email, password).then(authenticated => {
+				if (authenticated) {
+					this.props.history.push('/users');
+				}
+			});
+		}
 	}
 
 	render() {
@@ -33,15 +45,12 @@ class Login extends Component {
 											<input type="text" className="form-control" placeholder="Email" ref={this.userNameRef} required />
 										</div>
 										<div className="form-group">
-											<input id="password-field" type="password" className="form-control" placeholder="Password" ref={this.passWordRed} required />
+											<input id="password-field" type="password" className="form-control" placeholder="Password" ref={this.passWordRef} required />
 											<span toggle="#password-field" className="fa fa-fw fa-eye field-icon toggle-password" />
 										</div>
 										<div className="form-group">
-											<button type="button" className="form-control btn btn-primary submit px-3" onClick={() => {
-												auth.login(() => {
-													this.props.history.push('/users');													
-												})
-											}}>Sign In</button>
+											<button type="button" className="form-control btn btn-primary submit px-3" onClick={() =>
+												this.onClickLogin()}>Sign In</button>
 										</div>
 										<div className="form-group d-md-flex">
 											<div className="w-50">

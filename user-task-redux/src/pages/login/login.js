@@ -2,6 +2,7 @@ import React, { Component, createRef } from "react";
 import bg2 from '../../assets/images/bg-2.png';
 import './style.scss'
 import { signIn } from '../../services/auth';
+import { Link } from "react-router-dom";
 
 class Login extends Component {
 	userNameRef;
@@ -64,6 +65,9 @@ class Login extends Component {
 											</div>
 										</div>
 									</form>
+									<div className="form-group">
+											<Link to="/signup" className="form-control btn btn-primary submit px-3">Sign Up</Link>
+										</div>
 									<p className="w-100 text-center">— Or Sign In With —</p>
 									<div className="social d-flex text-center">
 										<a href="#" className="px-2 py-2 mr-md-1 rounded"><span className="ion-logo-facebook mr-2" />

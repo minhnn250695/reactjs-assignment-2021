@@ -19,6 +19,7 @@ import Logout from './pages/login/logout';
 import Spinner from './components/Spinner/spinner';
 import { connect } from 'react-redux';
 import { PrivateRoute } from './routes/private-route';
+import SignUp from './pages/sign-up/sign-up';
 
 class App extends Component {
   render() {
@@ -39,6 +40,8 @@ class App extends Component {
 
           <Switch>
             <Route exact path="/" render={props => { return <Login {...props} /> }} ></Route>
+            <Route exact path="/signup" render={props => { return <SignUp {...props} /> }} ></Route>
+
             <Route exact path="/logout" render={props => { return <Logout {...props} /> }} ></Route>
 
             <PrivateRoute exact path="/tasks" component={Tasks}></PrivateRoute>

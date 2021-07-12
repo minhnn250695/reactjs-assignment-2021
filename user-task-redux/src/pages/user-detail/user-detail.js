@@ -104,7 +104,7 @@ class UserDetail extends Component {
 
                 <div className="form-group">
                     <label style={{ textAlign: 'left', width: '100%' }}>Password</label>
-                    <input type="password" className="form-control" defaultValue={this.state.user?.pass} ref={this.passRef} placeholder="Password" />
+                    <input type="password" className="form-control" defaultValue={this.state.user?.password} ref={this.passRef} placeholder="Password" />
                 </div>
 
                 <div className="form-group">

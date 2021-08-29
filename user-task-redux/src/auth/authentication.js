@@ -1,5 +1,5 @@
 import Constant from '../constant/constant';
-const expireDuration = 60 * 1000 * 1;
+const expireDuration = 60 * 1000 * 10; //sec * milisecon * min
 
 export function setAuthenticationLocalStorage(token, expire) {
     localStorage.setItem(Constant.token, token);
@@ -15,11 +15,12 @@ export function isExpiredToken() {
     return new Promise((resolve, reject) => {
         const expire_time = localStorage.getItem(Constant.expire_time);
         console.group('Expire check')
-        console.log('expire_time', expire_time);
-        console.log('expireDuration', expireDuration);
-        console.log('new Date()', new Date());
+        console.log('Authen time', expire_time);
+        console.log('Expire duration (ms)', expireDuration);
+        console.log('Current time checked', new Date());
         console.groupEnd()
         if (new Date(expire_time).getTime() + expireDuration < new Date().getTime()) {
+            console.log('Expired');
             removeAuthenticationLocalStorage();
             resolve(true);
         }

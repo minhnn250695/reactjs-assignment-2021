@@ -11,7 +11,7 @@
   ],
   "users": [
     {
-      "id": "34d0a830-5b7f-4fed-a929-8fcbf2a7c1fe",
+      "id": "34d0a830-5b7f-4fed-a929-8cbf2a7c1fe",
       "userName": "Nguyen Nhat Minh",
       "password": "123",
       "email": "minh.nn250695@gmail.com",
@@ -24,21 +24,43 @@
       ]
     },
     {
-      "id": "790dbc44-ff8d-4231-9709-b550491364db",
-      "userName": "g",
-      "password": "",
-      "email": "g",
+      "id": "34d0a830-5bf-4fed-a929-8fcbf2a7c1fe",
+      "userName": "Nguyen Nhat Minh",
+      "password": "123",
+      "email": "minh.nn250695@gmail.com",
       "address": "",
-      "phone": "g",
+      "phone": "165156313",
       "tasks": [
-        "e0b2e0d3-18b8-48c5-babc-6a71a53f27a4"
+        "a350396e-1976-4580-970a-3ec6d4e7e609",
+        "e0b2e0d3-18b8-48c5-babc-6a71a53f27a4",
+        "a350396e-1976-4580-970a-3ec6d4e7e609"
       ]
     },
     {
-      "id": "bda83a98-b77f-47d4-b7e1-3b1856d6f1c7",
-      "userName": "a",
-      "password": "a",
-      "email": "a"
+      "id": "34d0a830-5b7f-4fed-a929-8fcbf2a7c1f",
+      "userName": "Nguyen Nhat Minh",
+      "password": "123",
+      "email": "minh.nn250695@gmail.com",
+      "address": "",
+      "phone": "165156313",
+      "tasks": [
+        "a350396e-1976-4580-970a-3ec6d4e7e609",
+        "e0b2e0d3-18b8-48c5-babc-6a71a53f27a4",
+        "a350396e-1976-4580-970a-3ec6d4e7e609"
+      ]
+    },
+    {
+      "id": "34d0a830-5b7f-4fed-a929-8fcbf2a7c1",
+      "userName": "Nguyen Nhat Minh",
+      "password": "123",
+      "email": "minh.nn250695@gmail.com",
+      "address": "",
+      "phone": "165156313",
+      "tasks": [
+        "a350396e-1976-4580-970a-3ec6d4e7e609",
+        "e0b2e0d3-18b8-48c5-babc-6a71a53f27a4",
+        "a350396e-1976-4580-970a-3ec6d4e7e609"
+      ]
     }
   ]
 }

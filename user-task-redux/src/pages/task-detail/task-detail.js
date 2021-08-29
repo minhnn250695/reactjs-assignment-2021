@@ -1,89 +1,63 @@
-import React, { Component, createRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './style.scss';
 import { v4 as uuidv4 } from 'uuid';
-import { connect } from 'react-redux'
-import  ActionTypes  from "../../redux/action/actionTypes";
+import { addTask, updateTask } from '../../redux-thunk/action/task';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useRouteMatch } from "react-router-dom";
 
-const getCurrentTaskDetail = (tasks, id) => {
-    return tasks.filter(task => task.id === id)[0];
-}
 
-class TaskDetail extends Component {
-    nameRef;
-    addressRef;
-    emailRef;
-    phoneRef;
-    constructor(props) {
-        super(props);
-        this.state = {
-            isCreate: true,
-            task: {}
-        }
-        this.nameRef = createRef();
-        this.addressRef = createRef();
-        this.emailRef = createRef();
-        this.phoneRef = createRef();
-    }
+const TaskDetail = () => {
+    const nameRef = useRef(null);
+    const [isCreate, setIsCreate] = useState(true);
+    const [id, setId] = useState(null);
+    const [task, setTask] = useState(null);
 
-    componentDidMount() {
-        const { id } = this.props.match.params;
-        const selectedTask = getCurrentTaskDetail(this.props.tasks, id);
-        this.setState({ task: selectedTask, id: id });
+    const match = useRouteMatch();
+    const tasks = useSelector((state) => state.task.data);    
+    const dispatch = useDispatch();
+    const history = useHistory();
 
+    useEffect(() => {
+        let currentTask = tasks?.find(x => x.id === match.params.id);
+        setTask(currentTask);
+        const { id } = match.params;
+        setId(id);
         if (id === 'new') {
-            this.setState({
-                isCreate: true,
-            })
+            setIsCreate(true);
         } else if (id !== 'new') {
-            this.setState({
-                isCreate: false,
-            });
+            setIsCreate(false);
         }
-    }
+    }, [])
 
-    onSubmitForm = (e) => {
+    const onSubmitForm = (e) => {
+        console.log(e);
         e.preventDefault();
         const data = {
-            id: this.state?.isCreate ? uuidv4() : this.state.id,
-            taskName: this.nameRef.current.value,
+            id: isCreate ? uuidv4() : id,
+            taskName: nameRef.current.value,
         };
-        if (this.state?.isCreate) {
-            this.props.createTask(data);
+        if (isCreate) {
+            dispatch(addTask(data));
         } else {
-            this.props.updateTask(data);
-
+            dispatch(updateTask(data));
         }
-        this.props.history.push('/tasks');
+        history.push('/tasks');
     }
 
-    render() {
-        return (
-            <form className="container" onSubmit={this.onSubmitForm}>
-                <h3 className="title">{this.state.isCreate ? "Create New Task" : "Update Task Info"}</h3>
-                <div className="form-group">
-                    <label style={{ textAlign: 'left', width: '100%' }}>Task Name</label>
-                    <input type="text" className="form-control" defaultValue={this.state.task?.taskName} ref={this.nameRef} placeholder="User name" />
+    return (
+        <form className="container" onSubmit={() => onSubmitForm}>
+            <h3 className="title">{isCreate ? "Create New Task" : "Update Task Info"}</h3>
+            <div className="form-group">
+                <label style={{ textAlign: 'left', width: '100%' }}>Task Name</label>
+                <input type="text" className="form-control" defaultValue={task?.taskName} ref={nameRef} placeholder="User name" />
+            </div>
+            <div className='d-flex justify-content-end mt-4'>
+                <div>
+                    <button type="submit" className="btn btn-primary btn-block">Save</button>
                 </div>
-                <div className='d-flex justify-content-end mt-4'>
-                    <div>
-                        <button type="submit" className="btn btn-primary btn-block">Save</button>
-                    </div>
-                </div>
-            </form>
-        );
-    }
-}
+            </div>
+        </form>
+    );
 
-const mapStateToProps = () => {
-    return (state) => {
-        const tasks = state && state.taskReducer;
-        return { tasks };
-    }
 }
-
-const mapDispatchToProps = {
-    createTask: (task) => ({ type: ActionTypes.ADD_TASK, payload: task }),
-    updateTask: (task) => ({ type: ActionTypes.UPDATE_TASK, payload: task }),
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TaskDetail);
+export default TaskDetail;

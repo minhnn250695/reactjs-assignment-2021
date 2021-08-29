@@ -1,20 +1,21 @@
-import { Component } from "react";
-import {logout} from '../../auth/authentication';
+import { useEffect } from "react";
+import { logout } from '../../auth/authentication';
+import { useHistory } from 'react-router-dom'
 
-class Logout extends Component {
-    constructor(props) {
-        super(props)
+const Logout = () => {
+    const history = useHistory();
+
+    useEffect(() => {
         logout(() => {
-            this.props.history.push('/');
+            history.push('/');
         })
-    }
 
-    render() {
-        return (
-            <>
-            </>
-        )
-    }
+    }, []);
+
+    return (
+        <>
+        </>
+    )
 }
 
 export default Logout;

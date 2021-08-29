@@ -1,7 +1,6 @@
-import  ActionTypes  from '../action/actionTypes';
+import ActionTypes from '../action/actionTypes';
 
-
-export default function taskReducer(state = [], action) {
+const taskReducer = (state = [], action) => {
     switch (action.type) {
 
         case ActionTypes.FETCH_TASKS_SUCCESS:
@@ -19,4 +18,6 @@ export default function taskReducer(state = [], action) {
         default:
             return state
     }
-};
+}
+
+export default taskReducer;

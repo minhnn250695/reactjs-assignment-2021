@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -15,15 +16,16 @@ import Tasks from './pages/tasks/tasks';
 import TaskDetail from './pages/task-detail/task-detail';
 import Login from './pages/login/login';
 import Logout from './pages/login/logout';
-
 import Spinner from './components/Spinner/spinner';
-import { connect } from 'react-redux';
 import { PrivateRoute } from './routes/private-route';
 import SignUp from './pages/sign-up/sign-up';
 
-class App extends Component {
-  render() {
-    return (
+const App = () => {
+  const isLoading = useSelector((state) => state.loading.isLoading);
+  const isExpired = useSelector((state) => state.loading.isExpired);
+  
+  return (
+    <>
       <div className="App">
         <Router>
           <Navbar className="d-flex justify-content-center" bg="dark" variant="dark">
@@ -54,24 +56,13 @@ class App extends Component {
               <h1>Page not found!</h1>
             </Route>
           </Switch>
-          {this.props.expired ? <Redirect to='/' /> : ''}
+          {isExpired ? <Redirect to='/' /> : ''}
         </Router>
 
-        {this.props.loading ? <Spinner /> : ''}
+        {isLoading ? <Spinner /> : ''}
       </div>
-    );
-  }
+    </>
+  )
 
 }
-
-const mapState = () => {
-  return (state) => {
-    console.log('app', state);
-    const loading = state.loadingReducer.isLoading;
-    const expired = state.loadingReducer.isExpired;
-
-    return { loading, expired };
-  }
-}
-
-export default connect(mapState)(App);
+export default App;
